@@ -302,13 +302,22 @@ Tournament* NewTournamentDialog::createTournament(GameManager* gameManager) cons
 	t->setResultFormat(ts->resultFormat());
 
 	const auto engines = m_addedEnginesManager->engines();
-	for (EngineConfiguration config : engines)
-	{
-		ui->m_gameSettings->applyEngineConfiguration(&config);
-		t->addPlayer(new EngineBuilder(config),
-			     ui->m_gameSettings->timeControl(),
-			     book,
-			     bookDepth);
+	int i = 0;
+	for (EngineConfiguration config : engines) {
+		if (i % 2 == 0) {
+			ui->m_gameSettings->applyEngineConfiguration(&config);
+			t->addPlayer(new EngineBuilder(config),
+				ui->m_gameSettings->timeControl(Chess::Side::White),
+				book,
+				bookDepth);
+		} else if (i % 2 != 0) {
+			ui->m_gameSettings->applyEngineConfiguration(&config);
+			t->addPlayer(new EngineBuilder(config),
+				ui->m_gameSettings->timeControl(Chess::Side::Black),
+				book,
+				bookDepth);
+		}
+		i ++;
 	}
 
 	return t;

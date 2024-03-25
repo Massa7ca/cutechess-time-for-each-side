@@ -1,4 +1,4 @@
-/*
+﻿/*
     This file is part of Cute Chess.
     Copyright (C) 2008-2018 Cute Chess authors
 
@@ -22,6 +22,7 @@
 #include <QElapsedTimer>
 #include <QString>
 #include <QCoreApplication>
+#include <Side.h>
 class QSettings;
 
 /*!
@@ -208,10 +209,10 @@ class LIB_EXPORT TimeControl
 		int activeTimeLeft() const;
 
 		/*! Reads time control settings from \a settings. */
-		void readSettings(QSettings* settings);
+		void readSettings(QSettings* settings, Chess::Side side);
 
 		/*! Writes this time control to \a settings. */
-		void writeSettings(QSettings* settings);
+		void writeSettings(QSettings* settings, Chess::Side side);
 
 	private:
 		int m_movesPerTc;

@@ -426,10 +426,12 @@ void ChessGame::setStartingFen(const QString& fen)
 
 void ChessGame::setTimeControl(const TimeControl& timeControl, Chess::Side side)
 {
-	if (side != Chess::Side::White)
+	if (side == Chess::Side::Black) {
 		m_timeControl[Chess::Side::Black] = timeControl;
-	if (side != Chess::Side::Black)
+	}
+	if (side == Chess::Side::White) {
 		m_timeControl[Chess::Side::White] = timeControl;
+	}
 }
 
 void ChessGame::setMoves(const QVector<Chess::Move>& moves)

@@ -108,11 +108,12 @@ void GameWallWidget::setGame(ChessGame* game)
 			m_clocks[i], SLOT(setPlayerName(QString)));
 
 		m_clocks[i]->setInfiniteTime(player->timeControl()->isInfinite());
-
-		if (player->state() == ChessPlayer::Thinking)
+		if (player->state() == ChessPlayer::Thinking){
 			m_clocks[i]->start(player->timeControl()->activeTimeLeft());
-		else
+		}
+		else {
 			m_clocks[i]->setTime(player->timeControl()->timeLeft());
+		}
 
 		connect(player, SIGNAL(startedThinking(int)),
 			m_clocks[i], SLOT(start(int)));

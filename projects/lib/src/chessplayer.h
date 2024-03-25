@@ -120,7 +120,7 @@ class LIB_EXPORT ChessPlayer : public QObject
 		
 		/*! Forces the player to play \a move as its next move. */
 		virtual void makeBookMove(const Chess::Move& move);
-		
+
 		/*! Returns the player's name. */
 		QString name() const;
 		

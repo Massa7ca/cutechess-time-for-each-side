@@ -739,8 +739,8 @@ int main(int argc, char* argv[])
 	QStringList arguments = CuteChessCoreApplication::arguments();
 	arguments.takeFirst(); // application name
 
-	// Use trivial command-line parsing for now
-	QTextStream out(stdout);
+    // Use trivial command-line parsing for now
+    QTextStream out(stdout);
 	const auto& constArguments = arguments;
 	for (const auto& arg : constArguments)
 	{

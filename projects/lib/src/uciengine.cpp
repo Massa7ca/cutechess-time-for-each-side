@@ -265,10 +265,15 @@ void UciEngine::startThinking()
 		if (myTc->plyLimit() == 0 && myTc->nodeLimit() == 0)
 			command += " infinite";
 	}
-	else if (myTc->timePerMove() > 0)
-		command += QString(" movetime %1").arg(myTc->timeLeft());
-	else
-	{
+	else if (myTc->timePerMove() > 0) {
+		if (side() == Chess::Side::White)
+			command += QString(" movetime %1").arg(whiteTc->timePerMove());
+		else if (side() == Chess::Side::Black)
+			command += QString(" movetime %1").arg(blackTc->timePerMove());
+		else
+			qFatal("Player %s doesn't have a side", qUtf8Printable(name()));
+	}
+	else {
 		command += QString(" wtime %1").arg(whiteTc->timeLeft());
 		command += QString(" btime %1").arg(blackTc->timeLeft());
 		if (whiteTc->timeIncrement() > 0)

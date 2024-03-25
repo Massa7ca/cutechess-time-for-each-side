@@ -112,7 +112,8 @@ ChessGame* NewGameDialog::createGame() const
 	pgn->setSite(QSettings().value("pgn/site").toString());
 	auto game = new ChessGame(board, pgn);
 
-	game->setTimeControl(ui->m_gameSettings->timeControl());
+	game->setTimeControl(ui->m_gameSettings->timeControl(Chess::Side::White), Chess::Side::White);
+	game->setTimeControl(ui->m_gameSettings->timeControl(Chess::Side::Black), Chess::Side::Black);
 	game->setAdjudicator(ui->m_gameSettings->adjudicator());
 
 	auto suite = ui->m_gameSettings->openingSuite();

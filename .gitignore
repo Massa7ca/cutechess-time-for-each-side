@@ -40,6 +40,8 @@ docs/api/html/
 .rcc/
 .moc/
 .obj/
+.vs/
+out/
 
 # other temporary files
 *~

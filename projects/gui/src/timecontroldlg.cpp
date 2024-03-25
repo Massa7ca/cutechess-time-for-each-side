@@ -150,10 +150,12 @@ void TimeControlDialog::setTime(int ms)
 TimeControl TimeControlDialog::timeControl() const
 {
 	TimeControl tc;
-	if (ui->m_infiniteRadio->isChecked())
+	if (ui->m_infiniteRadio->isChecked()){
 		tc.setInfinity(true);
-	else if (ui->m_timePerMoveRadio->isChecked())
+	}
+	else if (ui->m_timePerMoveRadio->isChecked()){
 		tc.setTimePerMove(timeToMs());
+	}
 	else if (ui->m_tournamentRadio->isChecked())
 	{
 		tc.setMovesPerTc(ui->m_movesSpin->value());

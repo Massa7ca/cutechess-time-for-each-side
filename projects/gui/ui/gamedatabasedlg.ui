@@ -191,22 +191,21 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>102</width>
-            <height>428</height>
+            <width>86</width>
+            <height>434</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_2">
            <property name="horizontalSpacing">
             <number>6</number>
            </property>
-           <property name="margin">
+           <property name="margin" stdset="0">
             <number>4</number>
            </property>
            <item row="0" column="0">
             <widget class="QLabel" name="label_7">
              <property name="font">
               <font>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -234,7 +233,6 @@
             <widget class="QLabel" name="label_5">
              <property name="font">
               <font>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -262,7 +260,6 @@
             <widget class="QLabel" name="label_2">
              <property name="font">
               <font>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -290,7 +287,6 @@
             <widget class="QLabel" name="label_3">
              <property name="font">
               <font>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -318,7 +314,6 @@
             <widget class="QLabel" name="label_9">
              <property name="font">
               <font>
-               <weight>75</weight>
                <bold>true</bold>
               </font>
              </property>
@@ -346,16 +341,15 @@
             <widget class="QLabel" name="label_variant">
              <property name="font">
               <font>
-               <weight>75</weight>
                <bold>true</bold>
                <kerning>true</kerning>
               </font>
              </property>
-             <property name="text">
-              <string>Variant:</string>
-             </property>
              <property name="visible">
               <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Variant:</string>
              </property>
             </widget>
            </item>

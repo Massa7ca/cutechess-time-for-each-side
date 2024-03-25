@@ -1,4 +1,4 @@
-/*
+﻿/*
     This file is part of Cute Chess.
     Copyright (C) 2008-2018 Cute Chess authors
 
@@ -19,6 +19,7 @@
 #include "timecontrol.h"
 #include <QStringList>
 #include <QSettings>
+#include <qtextstream.h>
 
 namespace {
 
@@ -402,36 +403,65 @@ int TimeControl::activeTimeLeft() const
 	return m_timeLeft;
 }
 
-void TimeControl::readSettings(QSettings* settings)
+void TimeControl::readSettings(QSettings* settings, Chess::Side side)
 {
-	settings->beginGroup("time_control");
+	QTextStream cout(stdout);
+	if (side == Chess::Side::White) {
+		settings->beginGroup("w_time_control");
 
-	m_movesPerTc = settings->value("moves_per_tc", m_movesPerTc).toInt();
-	m_timePerTc = settings->value("time_per_tc", m_timePerTc).toInt();
-	m_timePerMove = settings->value("time_per_move", m_timePerMove).toInt();
-	m_increment = settings->value("increment", m_increment).toInt();
-	m_plyLimit = settings->value("ply_limit", m_plyLimit).toInt();
-	m_nodeLimit = settings->value("node_limit", m_nodeLimit).toLongLong();
-	m_expiryMargin = settings->value("expiry_margin", m_expiryMargin).toInt();
-	m_infinite = settings->value("infinite", m_infinite).toBool();
-	m_hourglass = settings->value("hourglass", m_hourglass).toBool();
+		m_movesPerTc = settings->value("w_moves_per_tc", m_movesPerTc).toInt();
+		m_timePerTc = settings->value("w_time_per_tc", m_timePerTc).toInt();
+		m_timePerMove = settings->value("w_time_per_move", m_timePerMove).toInt();
+		m_increment = settings->value("w_increment", m_increment).toInt();
+		m_plyLimit = settings->value("w_ply_limit", m_plyLimit).toInt();
+		m_nodeLimit = settings->value("w_node_limit", m_nodeLimit).toLongLong();
+		m_expiryMargin = settings->value("w_expiry_margin", m_expiryMargin).toInt();
+		m_infinite = settings->value("w_infinite", m_infinite).toBool();
+		m_hourglass = settings->value("w_hourglass", m_hourglass).toBool();
+	} else {
+		settings->beginGroup("b_time_control");
+
+		m_movesPerTc = settings->value("b_moves_per_tc", m_movesPerTc).toInt();
+		m_timePerTc = settings->value("b_time_per_tc", m_timePerTc).toInt();
+		m_timePerMove = settings->value("b_time_per_move", m_timePerMove).toInt();
+		m_increment = settings->value("b_increment", m_increment).toInt();
+		m_plyLimit = settings->value("b_ply_limit", m_plyLimit).toInt();
+		m_nodeLimit = settings->value("b_node_limit", m_nodeLimit).toLongLong();
+		m_expiryMargin = settings->value("b_expiry_margin", m_expiryMargin).toInt();
+		m_infinite = settings->value("b_infinite", m_infinite).toBool();
+		m_hourglass = settings->value("b_hourglass", m_hourglass).toBool();
+	}
 
 	settings->endGroup();
 }
 
-void TimeControl::writeSettings(QSettings* settings)
+void TimeControl::writeSettings(QSettings* settings, Chess::Side side)
 {
-	settings->beginGroup("time_control");
+	if (side == Chess::Side::White) {
+		settings->beginGroup("w_time_control");
 
-	settings->setValue("moves_per_tc", m_movesPerTc);
-	settings->setValue("time_per_tc", m_timePerTc);
-	settings->setValue("time_per_move", m_timePerMove);
-	settings->setValue("increment", m_increment);
-	settings->setValue("ply_limit", m_plyLimit);
-	settings->setValue("node_limit", m_nodeLimit);
-	settings->setValue("expiry_margin", m_expiryMargin);
-	settings->setValue("infinite", m_infinite);
-	settings->setValue("hourglass", m_hourglass);
+		settings->setValue("w_moves_per_tc", m_movesPerTc);
+		settings->setValue("w_time_per_tc", m_timePerTc);
+		settings->setValue("w_time_per_move", m_timePerMove);
+		settings->setValue("w_increment", m_increment);
+		settings->setValue("w_ply_limit", m_plyLimit);
+		settings->setValue("w_node_limit", m_nodeLimit);
+		settings->setValue("w_expiry_margin", m_expiryMargin);
+		settings->setValue("w_infinite", m_infinite);
+		settings->setValue("w_hourglass", m_hourglass);
+	} else {
+		settings->beginGroup("b_time_control");
+
+		settings->setValue("b_moves_per_tc", m_movesPerTc);
+		settings->setValue("b_time_per_tc", m_timePerTc);
+		settings->setValue("b_time_per_move", m_timePerMove);
+		settings->setValue("b_increment", m_increment);
+		settings->setValue("b_ply_limit", m_plyLimit);
+		settings->setValue("b_node_limit", m_nodeLimit);
+		settings->setValue("b_expiry_margin", m_expiryMargin);
+		settings->setValue("b_infinite", m_infinite);
+		settings->setValue("b_hourglass", m_hourglass);
+	}
 
 	settings->endGroup();
 }

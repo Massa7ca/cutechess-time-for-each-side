@@ -42,7 +42,7 @@ class GameSettingsWidget : public QWidget
 		virtual ~GameSettingsWidget();
 
 		QString chessVariant() const;
-		TimeControl timeControl() const;
+		TimeControl timeControl(Chess::Side side) const;
 		bool pondering() const;
 		GameAdjudicator adjudicator() const;
 		OpeningSuite* openingSuite() const;
@@ -64,13 +64,14 @@ class GameSettingsWidget : public QWidget
 
 	private slots:
 		void validateFen(const QString& fen);
-		void showTimeControlDialog();
+		void showTimeControlDialogWhite();
+		void showTimeControlDialogBlack();
 
 	private:
 		void readSettings();
 
 		Ui::GameSettingsWidget *ui;
-		TimeControl m_timeControl;
+		TimeControl m_timeControl[2];
 		Chess::Board* m_board;
 		QPalette m_defaultPalette;
 		bool m_isValid;

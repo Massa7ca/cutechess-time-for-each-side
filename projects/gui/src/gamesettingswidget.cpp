@@ -1,4 +1,4 @@
-/*
+﻿/*
     This file is part of Cute Chess.
     Copyright (C) 2008-2018 Cute Chess authors
 
@@ -42,11 +42,17 @@ GameSettingsWidget::GameSettingsWidget(QWidget *parent)
 	int index = ui->m_variantCombo->findText("standard");
 	ui->m_variantCombo->setCurrentIndex(index);
 
-	connect(ui->m_timeControlBtn, SIGNAL(clicked()),
-		this, SLOT(showTimeControlDialog()));
-	m_timeControl.setMovesPerTc(40);
-	m_timeControl.setTimePerTc(300000);
-	ui->m_timeControlBtn->setText(m_timeControl.toVerboseString());
+	connect(ui->white_timeControlBtn, SIGNAL(clicked()),
+		this, SLOT(showTimeControlDialogWhite()));
+	connect(ui->black_timeControlBtn, SIGNAL(clicked()),
+		this, SLOT(showTimeControlDialogBlack()));
+
+	m_timeControl[Chess::Side::White].setMovesPerTc(40);
+	m_timeControl[Chess::Side::White].setTimePerTc(300000);
+	m_timeControl[Chess::Side::Black].setMovesPerTc(40);
+	m_timeControl[Chess::Side::Black].setTimePerTc(300000);
+	ui->white_timeControlBtn->setText("White: " + m_timeControl[Chess::Side::White].toVerboseString());
+	ui->black_timeControlBtn->setText("Black: " + m_timeControl[Chess::Side::Black].toVerboseString());
 
 	connect(ui->m_browseOpeningSuiteBtn, &QPushButton::clicked, this, [=]()
 	{
@@ -124,9 +130,9 @@ QString GameSettingsWidget::chessVariant() const
 	return ui->m_variantCombo->currentText();
 }
 
-TimeControl GameSettingsWidget::timeControl() const
+TimeControl GameSettingsWidget::timeControl(Chess::Side side) const
 {
-	return m_timeControl;
+	return m_timeControl[side];
 }
 
 bool GameSettingsWidget::pondering() const
@@ -230,8 +236,10 @@ void GameSettingsWidget::readSettings()
 	s.beginGroup("games");
 
 	ui->m_variantCombo->setCurrentText(s.value("variant").toString());
-	m_timeControl.readSettings(&s);
-	ui->m_timeControlBtn->setText(m_timeControl.toVerboseString());
+	m_timeControl[Chess::Side::White].readSettings(&s, Chess::Side::White);
+	m_timeControl[Chess::Side::Black].readSettings(&s, Chess::Side::Black);
+	ui->white_timeControlBtn->setText("White: " + m_timeControl[Chess::Side::White].toVerboseString());
+	ui->black_timeControlBtn->setText("Black: " + m_timeControl[Chess::Side::Black].toVerboseString());
 
 	s.beginGroup("opening_suite");
 	ui->m_fenEdit->setText(s.value("fen").toString());
@@ -282,7 +290,8 @@ void GameSettingsWidget::enableSettingsUpdates()
 	{
 		QSettings s;
 		s.beginGroup("games");
-		m_timeControl.writeSettings(&s);
+		m_timeControl[Chess::Side::White].writeSettings(&s, Chess::Side::White);
+		m_timeControl[Chess::Side::Black].writeSettings(&s, Chess::Side::Black);
 		s.endGroup();
 	});
 
@@ -417,13 +426,24 @@ void GameSettingsWidget::validateFen(const QString& fen)
 	}
 }
 
-void GameSettingsWidget::showTimeControlDialog()
+void GameSettingsWidget::showTimeControlDialogWhite()
 {
-	TimeControlDialog dlg(m_timeControl);
+	TimeControlDialog dlg(m_timeControl[Chess::Side::White]);
 	if (dlg.exec() == QDialog::Accepted)
 	{
-		m_timeControl = dlg.timeControl();
-		ui->m_timeControlBtn->setText(m_timeControl.toVerboseString());
+		m_timeControl[Chess::Side::White] = dlg.timeControl();
+		ui->white_timeControlBtn->setText("White: " + m_timeControl[Chess::Side::White].toVerboseString());
+		emit timeControlChanged();
+	}
+}
+
+void GameSettingsWidget::showTimeControlDialogBlack()
+{
+	TimeControlDialog dlg(m_timeControl[Chess::Side::Black]);
+	if (dlg.exec() == QDialog::Accepted)
+	{
+		m_timeControl[Chess::Side::Black] = dlg.timeControl();
+		ui->black_timeControlBtn->setText("Black: " + m_timeControl[Chess::Side::Black].toVerboseString());
 		emit timeControlChanged();
 	}
 }
